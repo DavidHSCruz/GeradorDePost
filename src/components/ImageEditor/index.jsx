@@ -224,7 +224,7 @@ const ImageEditor = () => {
                     >Criar post</button>
                 </form>
             )}
-            <canvas ref={canvasRef} />
+            <canvas className="size-1/4" ref={canvasRef} />
             <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10">Download image</a>
         </section>
     );
