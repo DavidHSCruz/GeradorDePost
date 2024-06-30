@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 
 const ImageEditor = () => {
     const canvasRef = useRef(null);
+    const download = useRef(null)
     const { template } = useTemplateData();
 
     function defineFont(ctx, tamanho) {
@@ -63,6 +64,16 @@ const ImageEditor = () => {
         //Transferência
         defineFont(ctx, 35);
         ctx.fillText(`Transferência: R$${transferencia}`, 75, 1028);
+
+        downloadIMG()
+    }
+
+    function downloadIMG() {
+        const link = download.current
+        const canvas = canvasRef.current
+
+        link.download = 'image.png'
+        link.href = canvas.toDataURL('image/png')
     }
 
     const consorcio = useRef(null);
@@ -77,6 +88,7 @@ const ImageEditor = () => {
 
     const [seguroCheck, setSeguroCheck] = useState(false);
     const [erro, setErro] = useState("");
+
     function handleClick(e) {
         e.preventDefault();
         const canvas = canvasRef.current;
@@ -213,6 +225,7 @@ const ImageEditor = () => {
                 </form>
             )}
             <canvas ref={canvasRef} />
+            <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10">Download image</a>
         </section>
     );
 };
