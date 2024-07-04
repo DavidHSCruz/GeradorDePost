@@ -127,15 +127,15 @@ const ImageEditor = () => {
     }, []);
 
     return (
-        <section className=" bg-slate-600 flex justify-center flex-wrap gap-10">
+        <section className="flex justify-center flex-col gap-10 items-center">
             {!template ? (
                 <Navigate to="/" />
             ) : (
-                <form className="min-w-80 max-w-3xl">
+                <form className="min-w-80 max-w-3xl m-5">
                     <label>
                         <p>Consórcio:</p>
                         <input
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={consorcio}
                             type="text"
                             placeholder="Servopa"
@@ -144,7 +144,7 @@ const ImageEditor = () => {
                     <label>
                         <p>Crédito:</p>
                         <input
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={credito}
                             type="text"
                             placeholder="35.000,00"
@@ -153,13 +153,13 @@ const ImageEditor = () => {
                     <label>
                         <p>Entrada:</p>
                         <input 
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={entrada}
                             type="text"
                             placeholder="12.900,00"
                         />
                     </label>
-                    <label className="flex gap-2">
+                    <label className="flex gap-2 my-2">
                         <p>Tem valor do seguro?</p>
                         <input
                             ref={seguro}
@@ -172,7 +172,7 @@ const ImageEditor = () => {
 
                     {seguroCheck && (
                         <input
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={valorSeguro}
                             type="text"
                             placeholder="87,14"
@@ -182,7 +182,7 @@ const ImageEditor = () => {
                         <label className="w-1/6">
                             <p>Parcelas:</p>
                             <input
-                                className="w-full"
+                                className="w-full border-b-2"
                                 ref={numeroDeParcelas}
                                 type="text"
                                 placeholder="45"
@@ -191,7 +191,7 @@ const ImageEditor = () => {
                         <label className="w-full">
                             <p>Valor:</p>
                             <input
-                                className="w-full"
+                                className="w-full border-b-2"
                                 ref={valorParcelas}
                                 type="text"
                                 placeholder="875,05"
@@ -201,7 +201,7 @@ const ImageEditor = () => {
                     <label>
                         <p>Valor pago:</p>
                         <input
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={valorPago}
                             type="text"
                             placeholder="10.875,00"
@@ -210,22 +210,25 @@ const ImageEditor = () => {
                     <label>
                         <p>Transferência:</p>
                         <input
-                            className="w-full"
+                            className="w-full border-b-2"
                             ref={transferencia}
                             type="text"
                             placeholder="575,00"
                         />
                     </label>
                     <p>{erro}</p>
+
                     <button
-                        className="bg-red-600 px-3 py-1 text-white rounded-sm mt-2"
+                        className="bg-red-600 px-3 py-1 text-white rounded-sm mt-2 w-40"
                         type="submit"
                         onClick={ (e) => handleClick(e) }
-                    >Criar post</button>
+                    >Criar post
+                    </button>
+
                 </form>
             )}
-            <canvas className="size-1/4" ref={canvasRef} />
-            <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10">Download image</a>
+            <canvas className=" size-72" ref={canvasRef} />
+            <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10 w-40">Download image</a>
         </section>
     );
 };

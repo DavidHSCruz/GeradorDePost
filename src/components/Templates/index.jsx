@@ -9,8 +9,9 @@ const Templates = () => {
     const { setTemplate } = useTemplateData()
 
     return (
-        <section>
-            <ul className="grid grid-cols-2 gap-2 m-2 max-w-4xl mx-auto">
+        <section className=" text-center font-black m-5">
+            <h2>Selecione seu template</h2>
+            <ul className="grid grid-cols-1 gap-5 mt-5">
                 <li onClick={() => setTemplate(template1)}>
                     <Link to='/edit'>
                         <img src={template1} alt="" className=" brightness-90 hover:brightness-100"/>
