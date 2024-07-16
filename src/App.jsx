@@ -1,7 +1,7 @@
-import ImageEditor from "./components/ImageEditor";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Templates from "./components/Templates";
 import { TemplateProvider } from "./context/templateContext";
+import ImageEditor from "./pages/ImageEditor";
+import Templates from "./pages/Templates";
 
 
 function App() {
