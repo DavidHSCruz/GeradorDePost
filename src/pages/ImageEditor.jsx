@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useTemplateData } from "../context/templateContext";
 import { Navigate } from "react-router-dom";
-import { FormInput } from "../components/FormInput";
+import { InputText } from "../components/InputText";
+import { InputCheck } from "../components/InputCheck";
+import { InputSelect } from "../components/InputSelect";
 
 const ImageEditor = () => {
     const canvasRef = useRef(null)
     const download = useRef(null)
-    const consorcio = useRef(null)
-    const tipo = useRef(null)
 
     const { template } = useTemplateData()
 
     const [ creditoValue, setCreditoValue ] = useState('')
+    const [ tipo, setTipo ] = useState('')
+    const [ consorcio, setConsorcio ] = useState('')
     const [ entradaValue, setEntradaValue ] = useState('')
     const [ valorSeguroValue, setValorSeguroValue ] = useState('')
     const [ numeroDeParcelasValue, setNumeroDeParcelasValue ] = useState('')
@@ -92,10 +94,9 @@ const ImageEditor = () => {
         e.preventDefault();
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
-
         if (
             tipo &&
-            consorcio.current.value &&
+            consorcio &&
             creditoValue &&
             entradaValue &&
             numeroDeParcelasValue &&
@@ -105,8 +106,8 @@ const ImageEditor = () => {
         ) {
             escreveValoresDosInputs(
                 ctx,
-                tipo.current.value,
-                consorcio.current.value,
+                tipo,
+                consorcio,
                 creditoValue,
                 entradaValue,
                 numeroDeParcelasValue,
@@ -126,53 +127,78 @@ const ImageEditor = () => {
         const ctx = canvas.getContext("2d");
         criaCanvas(canvas, template, ctx);
     }, [template]);
-
+    const tiposDeConsorcio = ['Carta contemplada', 'Carta não contemplada', 'Carnê contemplado', 'Carnê não contemplado']
+    const empresa = ['Servopa', 'Yamaha', 'Gazin']
     return (
         <section className="flex justify-center flex-col gap-10 items-center">
             {!template ? (
                 <Navigate to="/" />
             ) : (
                 <form className="min-w-80 max-w-3xl m-5">
-                    <label>
-                        <p>Tipo:</p>
-                        <select className="w-full border-b-2" ref={tipo}>
-                            <option value="Carta contemplada">Carta contemplada</option>
-                            <option value="Carta não contemplada">Carta não contemplada</option>
-                            <option value="Carnê contemplado">Carnê contemplado</option>
-                            <option value="Carnê não contemplado">Carnê não contemplado</option>
-                        </select>
-                    </label>
-                    <label>
-                        <p>Consórcio:</p>
-                        <select className="w-full border-b-2" ref={consorcio}>
-                            <option value="Servopa">Servopa</option>
-                            <option value="Yamaha">Yamaha</option>
-                            <option value="Gazin">Gazin</option>
-                        </select>
-                    </label>
-                    <FormInput value={creditoValue} setValue={setCreditoValue} placeholder='35.950,00' >Crédito</FormInput>
-                    <FormInput value={entradaValue} setValue={setEntradaValue} placeholder='12.720,80'>Entrada</FormInput>
-                    <label className="flex gap-2 my-2">
-                        <p>Tem valor do seguro?</p>
-                        <input
-                            type="checkbox"
-                            onChange={() =>
-                                seguroCheck ? setSeguroCheck(false) : setSeguroCheck(true)
-                            }
-                        />
-                    </label>
+                    <InputSelect 
+                        descricoes={tiposDeConsorcio}
+                        setValue={setTipo}
+                        value={tipo}
+                    >Tipo</InputSelect>
+
+                    <InputSelect 
+                        descricoes={empresa}  
+                        setValue={setConsorcio}
+                        value={consorcio}
+                    >Consórcio</InputSelect>
+
+                    <InputText 
+                        value={creditoValue} 
+                        setValue={setCreditoValue} 
+                        placeholder='35.950,00' 
+                    >Crédito</InputText>
+
+                    <InputText 
+                        value={entradaValue} 
+                        setValue={setEntradaValue} 
+                        placeholder='12.720,80'
+                    >Entrada</InputText>
+
+                    <InputCheck 
+                        value={seguroCheck} 
+                        setValue={setSeguroCheck}
+                    >Tem valor do seguro?</InputCheck>
 
                     {seguroCheck && (
-                        <FormInput value={valorSeguroValue} setValue={setValorSeguroValue} placeholder="87,14"></FormInput>
+                        <InputText 
+                            value={valorSeguroValue} 
+                            setValue={setValorSeguroValue} 
+                            placeholder="87,14"
+                        ></InputText>
                     )}
 
                     <div className="flex gap-2">
-                        <FormInput classLabel="w-1/6" value={numeroDeParcelasValue} setValue={setNumeroDeParcelasValue} placeholder="45">Parcelas</FormInput>
-                        <FormInput classLabel="w-full" value={valorParcelasValue} setValue={setValorParcelasValue} placeholder="875,05">Valor</FormInput>
+                        <InputText 
+                            classLabel="w-1/6" 
+                            value={numeroDeParcelasValue} 
+                            setValue={setNumeroDeParcelasValue} 
+                            placeholder="45"
+                        >Parcelas</InputText>
+
+                        <InputText 
+                            classLabel="w-full" 
+                            value={valorParcelasValue} 
+                            setValue={setValorParcelasValue} 
+                            placeholder="875,05"
+                        >Valor</InputText>
                     </div>
 
-                    <FormInput value={valorPagoValue} setValue={setValorPagoValue} placeholder="10.875,00">Valor pago</FormInput>
-                    <FormInput value={transferenciaValue} setValue={setTransferenciaValue} placeholder="575,00">Transferência</FormInput>
+                    <InputText 
+                        value={valorPagoValue} 
+                        setValue={setValorPagoValue} 
+                        placeholder="10.875,00"
+                    >Valor pago</InputText>
+
+                    <InputText 
+                        value={transferenciaValue} 
+                        setValue={setTransferenciaValue} 
+                        placeholder="575,00"
+                    >Transferência</InputText>
 
                     <p>{erro}</p>
 

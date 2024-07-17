@@ -1,5 +1,5 @@
 
-export const FormInput = ({ children, classLabel, value, setValue, placeholder }) => {
+export const InputText = ({ children, classLabel, value, setValue, placeholder }) => {
     return (
         <label className={classLabel}>
             <p>{ children }{children && ':'}</p>
