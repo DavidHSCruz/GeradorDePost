@@ -135,9 +135,9 @@ const ImageEditor = () => {
                 transferenciaValue,
                 valorSeguroValue
             );
-            criaImagemNoTemplate(ctx, seletorImagens1, 200, 740)
-            criaImagemNoTemplate(ctx, seletorImagens2, 330, 770)
-            criaImagemNoTemplate(ctx, seletorImagens3, 450, 800)
+            criaImagemNoTemplate(ctx, seletorImagens1, 200, 700)
+            criaImagemNoTemplate(ctx, seletorImagens2, 330, 730)
+            criaImagemNoTemplate(ctx, seletorImagens3, 450, 760)
             setErro("");
         } else {
             setErro("Preencha todos os campos");
@@ -263,7 +263,7 @@ const ImageEditor = () => {
                     </button>
                 </>
             )}
-            <canvas className=" size-72" ref={canvasRef} />
+            <canvas className="size-72 border-solid border-gray-400 border-2" ref={canvasRef} />
             <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10 w-40">Download image</a>
         </section>
     );
