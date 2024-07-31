@@ -11,7 +11,7 @@ const Templates = () => {
                 {templates.map((template, i) => 
                     <CardTemplate 
                         key={i}
-                        template={`../../public/imagens/templates/${template}.png`}
+                        template={`/imagens/templates/${template}.png`}
                         setTemplate={setTemplate}
                     />
                 )}
