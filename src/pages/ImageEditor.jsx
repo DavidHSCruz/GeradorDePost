@@ -4,10 +4,13 @@ import { Navigate } from "react-router-dom";
 import { InputText } from "../components/InputText";
 import { InputCheck } from "../components/InputCheck";
 import { InputSelect } from "../components/InputSelect";
+import { InputImageProdutos } from "../components/InputImageProdutos";
 
 const ImageEditor = () => {
     const canvasRef = useRef(null)
     const download = useRef(null)
+
+    const [reset, setReset] = useState(true)
 
     const { template } = useTemplateData()
 
@@ -20,7 +23,11 @@ const ImageEditor = () => {
     const [ valorParcelasValue, setValorParcelasValue ] = useState('')
     const [ valorPagoValue, setValorPagoValue ] = useState('')
     const [ transferenciaValue, setTransferenciaValue ] = useState('')
+    const [ quantidadeDeImagens, setQuantidaDeImagens ] = useState('')
 
+    const [ seletorImagens1, setSeletorImagens1 ] = useState('')
+    const [ seletorImagens2, setSeletorImagens2 ] = useState('')
+    const [ seletorImagens3, setSeletorImagens3 ] = useState('')
 
     const [seguroCheck, setSeguroCheck] = useState(false)
 
@@ -44,6 +51,18 @@ const ImageEditor = () => {
         }
     }
 
+    function criaImagemNoTemplate(ctx, imgSelect, x, y) {
+        if(imgSelect !== '') {
+            const img = new Image()
+            img.onload = () => {
+                    ctx.translate(0, -img.height)
+                    ctx.drawImage(img, x, y, img.width, img.height)
+                    ctx.translate(0, img.height)
+                };
+                img.src = imgSelect
+        }
+    }
+    
     function escreveValoresDosInputs(ctx, tipo, consorcio, credito, entrada, numeroDeParcelas, valorParcelas, valorPago, transferencia, valorSeguro) {
         //Tipo
         defineFont(ctx, 75)
@@ -116,6 +135,9 @@ const ImageEditor = () => {
                 transferenciaValue,
                 valorSeguroValue
             );
+            criaImagemNoTemplate(ctx, seletorImagens1, 200, 740)
+            criaImagemNoTemplate(ctx, seletorImagens2, 330, 770)
+            criaImagemNoTemplate(ctx, seletorImagens3, 450, 800)
             setErro("");
         } else {
             setErro("Preencha todos os campos");
@@ -123,92 +145,123 @@ const ImageEditor = () => {
     }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        criaCanvas(canvas, template, ctx);
-    }, [template]);
+        if(reset) {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d");
+            criaCanvas(canvas, template, ctx);
+            setReset(false)
+        }
+    }, [template, reset]);
+
     const tiposDeConsorcio = ['Carta contemplada', 'Carta não contemplada', 'Carnê contemplado', 'Carnê não contemplado']
     const empresa = ['Servopa', 'Yamaha', 'Gazin']
+    const quantDeImg = [1,2,3]
+
     return (
         <section className="flex justify-center flex-col gap-10 items-center">
             {!template ? (
                 <Navigate to="/" />
             ) : (
-                <form className="min-w-80 max-w-3xl m-5">
-                    <InputSelect 
-                        descricoes={tiposDeConsorcio}
-                        setValue={setTipo}
-                        value={tipo}
-                    >Tipo</InputSelect>
+                <>
+                    <form className="min-w-80 max-w-3xl m-5" onSubmit={(e) => handleClick(e)}>
+                        <InputSelect 
+                            descricoes={tiposDeConsorcio}
+                            setValue={setTipo}
+                            value={tipo}
+                        >Tipo</InputSelect>
 
-                    <InputSelect 
-                        descricoes={empresa}  
-                        setValue={setConsorcio}
-                        value={consorcio}
-                    >Consórcio</InputSelect>
-
-                    <InputText 
-                        value={creditoValue} 
-                        setValue={setCreditoValue} 
-                        placeholder='35.950,00' 
-                    >Crédito</InputText>
-
-                    <InputText 
-                        value={entradaValue} 
-                        setValue={setEntradaValue} 
-                        placeholder='12.720,80'
-                    >Entrada</InputText>
-
-                    <InputCheck 
-                        value={seguroCheck} 
-                        setValue={setSeguroCheck}
-                    >Tem valor do seguro?</InputCheck>
-
-                    {seguroCheck && (
-                        <InputText 
-                            value={valorSeguroValue} 
-                            setValue={setValorSeguroValue} 
-                            placeholder="87,14"
-                        ></InputText>
-                    )}
-
-                    <div className="flex gap-2">
-                        <InputText 
-                            classLabel="w-1/6" 
-                            value={numeroDeParcelasValue} 
-                            setValue={setNumeroDeParcelasValue} 
-                            placeholder="45"
-                        >Parcelas</InputText>
+                        <InputSelect 
+                            descricoes={empresa}  
+                            setValue={setConsorcio}
+                            value={consorcio}
+                        >Consórcio</InputSelect>
 
                         <InputText 
-                            classLabel="w-full" 
-                            value={valorParcelasValue} 
-                            setValue={setValorParcelasValue} 
-                            placeholder="875,05"
-                        >Valor</InputText>
-                    </div>
+                            value={creditoValue} 
+                            setValue={setCreditoValue} 
+                            placeholder='35.950,00' 
+                        >Crédito</InputText>
 
-                    <InputText 
-                        value={valorPagoValue} 
-                        setValue={setValorPagoValue} 
-                        placeholder="10.875,00"
-                    >Valor pago</InputText>
+                        <InputSelect 
+                            descricoes={quantDeImg}
+                            setValue={setQuantidaDeImagens}
+                            value={quantidadeDeImagens}
+                        >Quantidade de imagens</InputSelect>
 
-                    <InputText 
-                        value={transferenciaValue} 
-                        setValue={setTransferenciaValue} 
-                        placeholder="575,00"
-                    >Transferência</InputText>
+                        <InputImageProdutos 
+                            quantidade={quantidadeDeImagens}
+                            setSeletor1={setSeletorImagens1}
+                            setSeletor2={setSeletorImagens2}
+                            setSeletor3={setSeletorImagens3}
+                        />
+                        <picture>
+                            <img src={seletorImagens1} alt="" width='150px'/>
+                            <img src={seletorImagens2} alt="" width='150px'/>
+                            <img src={seletorImagens3} alt="" width='150px'/>
+                        </picture>
 
-                    <p>{erro}</p>
+                        <InputText 
+                            value={entradaValue}
+                            setValue={setEntradaValue} 
+                            placeholder='12.720,80'
+                        >Entrada</InputText>
 
+                        <InputCheck 
+                            value={seguroCheck} 
+                            setValue={setSeguroCheck}
+                        >Tem valor do seguro?</InputCheck>
+
+                        {seguroCheck && (
+                            <InputText 
+                                value={valorSeguroValue} 
+                                setValue={setValorSeguroValue} 
+                                placeholder="87,14"
+                            ></InputText>
+                        )}
+
+                        <div className="flex gap-2">
+                            <InputText 
+                                classLabel="w-1/6" 
+                                value={numeroDeParcelasValue} 
+                                setValue={setNumeroDeParcelasValue} 
+                                placeholder="45"
+                            >Parcelas</InputText>
+
+                            <InputText 
+                                classLabel="w-full" 
+                                value={valorParcelasValue} 
+                                setValue={setValorParcelasValue} 
+                                placeholder="875,05"
+                            >Valor</InputText>
+                        </div>
+
+                        <InputText 
+                            value={valorPagoValue} 
+                            setValue={setValorPagoValue} 
+                            placeholder="10.875,00"
+                        >Valor pago</InputText>
+
+                        <InputText 
+                            value={transferenciaValue} 
+                            setValue={setTransferenciaValue} 
+                            placeholder="575,00"
+                        >Transferência</InputText>
+
+                        <p>{erro}</p>
+
+                        <button
+                            className="bg-red-600 px-3 py-1 text-white rounded-sm mt-2 w-40"
+                            type="submit"
+                        >Criar post
+                        </button>
+                    </form>
                     <button
                         className="bg-red-600 px-3 py-1 text-white rounded-sm mt-2 w-40"
-                        type="submit"
-                        onClick={ (e) => handleClick(e) }
-                    >Criar post
+                        type="button"
+                        onClick={() => setReset(true)}
+                    >Apagar
                     </button>
-                </form>
+                </>
             )}
             <canvas className=" size-72" ref={canvasRef} />
             <a href="#" ref={download} className="bg-red-600 px-3 py-1 text-white rounded-sm mb-10 w-40">Download image</a>
