@@ -33,6 +33,8 @@ const ImageEditor = () => {
 
     const [erro, setErro] = useState("")
 
+    let imagensCarregadas = 0
+
     function defineFont(ctx, tamanho) {
         ctx.font = `bold ${tamanho}px Verdana`;
         ctx.textAlign = "start";
@@ -50,7 +52,7 @@ const ImageEditor = () => {
             img.src = template;
         }
     }
-
+    
     function criaImagemNoTemplate(ctx, imgSelect, x, y) {
         if(imgSelect !== '') {
             const img = new Image()
@@ -58,6 +60,11 @@ const ImageEditor = () => {
                     ctx.translate(0, -img.height)
                     ctx.drawImage(img, x, y, img.width, img.height)
                     ctx.translate(0, img.height)
+                    imagensCarregadas++
+                    if (imagensCarregadas === Number(quantidadeDeImagens)) {
+                        console.log(imagensCarregadas)
+                        downloadIMG()
+                    }
                 };
                 img.src = imgSelect
         }
@@ -97,8 +104,6 @@ const ImageEditor = () => {
         //Transferência
         defineFont(ctx, 35);
         ctx.fillText(`Transferência: R$${transferencia}`, 75, 1028);
-
-        downloadIMG()
     }
 
     function downloadIMG() {
@@ -123,6 +128,9 @@ const ImageEditor = () => {
             valorPagoValue &&
             transferenciaValue
         ) {
+            criaImagemNoTemplate(ctx, seletorImagens1, 200, 700)
+            criaImagemNoTemplate(ctx, seletorImagens2, 330, 730)
+            criaImagemNoTemplate(ctx, seletorImagens3, 450, 760)
             escreveValoresDosInputs(
                 ctx,
                 tipo,
@@ -135,10 +143,7 @@ const ImageEditor = () => {
                 transferenciaValue,
                 valorSeguroValue
             );
-            criaImagemNoTemplate(ctx, seletorImagens1, 200, 700)
-            criaImagemNoTemplate(ctx, seletorImagens2, 330, 730)
-            criaImagemNoTemplate(ctx, seletorImagens3, 450, 760)
-            setErro("");
+            setErro("")
         } else {
             setErro("Preencha todos os campos");
         }
