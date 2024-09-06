@@ -160,7 +160,7 @@ const ImageEditor = () => {
         }
     }, [template, reset])
 
-    const tiposDeConsorcio = ['Carta contemplada', 'Carta não contemplada', 'Carnê contemplado', 'Carnê não contemplado']
+    const tiposDeConsorcio = ['Carta contemplada', 'Consórcio não contemplado', 'Carnê não contemplado']
     const empresa = ['Servopa', 'Yamaha', 'Gazin']
     const quantDeImg = [1,2,3]
 
