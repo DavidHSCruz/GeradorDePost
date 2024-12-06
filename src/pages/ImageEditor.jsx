@@ -25,6 +25,7 @@ const ImageEditor = () => {
     const [ transferenciaValue, setTransferenciaValue ] = useState('')
     const [ quantidadeDeImagens, setQuantidaDeImagens ] = useState('')
     const [ vencimentoValue, setVencimentoValue ] = useState('')
+    const [ contatoValue, setContatoValue ] = useState('')
     
     const [ seletorImagens1, setSeletorImagens1 ] = useState('')
     const [ seletorImagens2, setSeletorImagens2 ] = useState('')
@@ -72,7 +73,7 @@ const ImageEditor = () => {
         }
     }
     
-    function escreveValoresDosInputs(ctx, tipo, consorcio, credito, entrada, numeroDeParcelas, valorParcelas, parcelaFlex, valorPago, transferencia, valorSeguro,vencimento) {
+    function escreveValoresDosInputs(ctx, tipo, consorcio, credito, entrada, numeroDeParcelas, valorParcelas, parcelaFlex, valorPago, transferencia, valorSeguro, vencimento, contato) {
         //Tipo
         defineFont(ctx, 75)
         ctx.fillStyle = '#ff0000'
@@ -102,7 +103,10 @@ const ImageEditor = () => {
         ctx.fillText(`Transferência: R$${transferencia}`, 75, 1028);
         //Vencimento
         defineFont(ctx, 35);
-        ctx.fillText(`Vencimento: ${vencimento}`, 150, 1150);
+        ctx.fillText(`Vencimento: ${vencimento}`, 150, 1100);
+        //Contato
+        defineFont(ctx, 35);
+        ctx.fillText(`Contato: ${contato}`, 150, 1150);
     }
 
     function downloadIMG() {
@@ -117,34 +121,30 @@ const ImageEditor = () => {
         e.preventDefault();
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
-        if (
-            tipo &&
-            consorcio &&
-            creditoValue &&
-            entradaValue &&
-            numeroDeParcelasValue &&
-            valorParcelasValue &&
-            valorPagoValue &&
-            transferenciaValue &&
-            vencimentoValue
-        ) {
+        const data = [ 
+            tipo, 
+            consorcio, 
+            creditoValue, 
+            entradaValue, 
+            numeroDeParcelasValue, 
+            valorParcelasValue,
+
+            parcelaFlex,
+
+            valorPagoValue, 
+            transferenciaValue, 
+
+            valorSeguroValue,
+
+            vencimentoValue,
+            contatoValue
+        ]
+        const dataTest = data.filter(data => data !== false).filter(data => data !== '')
+        if (dataTest.length >= 9) {
             criaImagemNoTemplate(ctx, seletorImagens1, 200, 700)
             criaImagemNoTemplate(ctx, seletorImagens2, 330, 730)
             criaImagemNoTemplate(ctx, seletorImagens3, 450, 760)
-            escreveValoresDosInputs(
-                ctx,
-                tipo,
-                consorcio,
-                creditoValue,
-                entradaValue,
-                numeroDeParcelasValue,
-                valorParcelasValue,
-                parcelaFlex,
-                valorPagoValue,
-                transferenciaValue,
-                valorSeguroValue,
-                vencimentoValue
-            );
+            escreveValoresDosInputs(ctx, ...data)
             setErro("")
         } else {
             setErro("Preencha todos os campos");
@@ -264,6 +264,14 @@ const ImageEditor = () => {
                             placeholder='19/12/2024'
                             tipo='date'
                         >Vencimento</Input>
+
+                        <Input 
+                            value={contatoValue} 
+                            setValue={setContatoValue} 
+                            placeholder="(41)..."
+                            tipo='contato'
+                            maxlength={15}
+                        >Contato</Input>
 
                         <p>{erro}</p>
 
