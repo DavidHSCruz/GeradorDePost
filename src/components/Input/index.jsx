@@ -19,7 +19,7 @@ export const Input = ({ children, classLabel, value, setValue, placeholder, tipo
 
     function setarValor(e) {
         switch (tipo) {
-            case 'data':
+            case 'date':
                 reescreveData(e)
                 break;
             case 'contato':
