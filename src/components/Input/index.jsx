@@ -6,17 +6,20 @@ export const Input = ({ children, classLabel, value, setValue, placeholder, tipo
         setValue(`${dia}/${mes}/${ano}`)
     }
     function reescreveContato(e) {
-        let data = e.target.value.replace(/[^\d.,]/g, '')
-        if (data.length <= 2) {
-            data = data.replace(/(\d{2})/, '($1) ');
+        let data = e.target.value.replace(/[^\d]/g, '')
+
+        if (data.length == 1) {
+            data = data.replace(/(\d{1})/, '($1_) ')
+          } else if (data.length == 2) {
+            data = data.replace(/(\d{2})/, '($1) ')
           } else if (data.length <= 7) {
-            data = data.replace(/(\d{2})(\d{5})/, '($1) $2-');
+            data = data.replace(/(\d{2})(\d{1,5})/, '($1) $2-')
           } else {
-            data = data.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            data = data.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3')
           }
         setValue(data)
     }
-
+    
     function setarValor(e) {
         switch (tipo) {
             case 'date':
