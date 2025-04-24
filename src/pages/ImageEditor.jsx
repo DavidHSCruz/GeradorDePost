@@ -161,7 +161,7 @@ const ImageEditor = () => {
     }, [template, reset])
 
     const tiposDeConsorcio = ['Carta contemplada', 'Consórcio não contemplado', 'Carnê não contemplado']
-    const empresa = ['Servopa', 'Yamaha', 'Gazin']
+    const empresa = ['Servopa', 'Yamaha', 'Gazin', 'Sicredi', 'Santander']
     const quantDeImg = [1,2,3]
 
     return (
