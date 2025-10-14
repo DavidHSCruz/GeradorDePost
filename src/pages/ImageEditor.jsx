@@ -21,6 +21,7 @@ const ImageEditor = () => {
     const [ valorSeguroValue, setValorSeguroValue ] = useState('')
     const [ numeroDeParcelasValue, setNumeroDeParcelasValue ] = useState('')
     const [ valorParcelasValue, setValorParcelasValue ] = useState('')
+    const [ valorParcelaFlexValue, setValorParcelaFlexValue ] = useState('')
     const [ valorPagoValue, setValorPagoValue ] = useState('')
     const [ transferenciaValue, setTransferenciaValue ] = useState('')
     const [ quantidadeDeImagens, setQuantidaDeImagens ] = useState('')
@@ -73,13 +74,12 @@ const ImageEditor = () => {
         }
     }
     
-    function escreveValoresDosInputs(ctx, tipo, consorcio, credito, entrada, numeroDeParcelas, valorParcelas, parcelaFlex, valorPago, transferencia, valorSeguro, vencimento, contato) {
+    function escreveValoresDosInputs(ctx, tipo, consorcio, credito, entrada, numeroDeParcelas, valorParcelas, valorParcelaFlex, parcelaFlex, valorPago, transferencia, valorSeguro, vencimento, contato) {
         //Tipo
         defineFont(ctx, 75)
         ctx.fillStyle = '#ff0000'
         ctx.fillText(tipo, 110, 100)
         //Empresa consórcio
-        defineFont(ctx, 75);
         ctx.fillStyle = '#000'
         ctx.fillText(consorcio, 110, 195);
         //Crédito
@@ -89,23 +89,31 @@ const ImageEditor = () => {
         defineFont(ctx, 40);
         ctx.fillText(`Entrada: R$${entrada}`, 75, 855);
         //Parcelas + Seguro
-        defineFont(ctx, 30);
-        ctx.fillText(
-                `${numeroDeParcelas}x R$${valorParcelas} ${seguroCheck ? `+ seg. de vida pf R$${valorSeguro}` : ''} ${parcelaFlex ? 'Obs: parcela flex': ''}`,
+        if (parcelaFlex) {
+            defineFont(ctx, 30);
+            ctx.fillText(
+                `${numeroDeParcelas}x R$${valorParcelaFlex} (Parcelas flex) ${seguroCheck ? `+ seg. de vida pf R$${valorSeguro}` : ''}`,
+                75,
+                900
+            );
+            defineFont(ctx, 25);
+            ctx.fillText(`Valor da parcela integral: R$${valorParcelas}`, 75, 930);
+        }else {
+            defineFont(ctx, 30);
+            ctx.fillText(
+                `${numeroDeParcelas}x R$${valorParcelas} ${seguroCheck ? `+ seg. de vida pf R$${valorSeguro}` : ''}`,
                 75,
                 912
-            )
+            );
+        }
         //Valor pago
         defineFont(ctx, 35);
         ctx.fillText(`Valor pago: R$${valorPago}`, 75, 970);
         //Transferência
-        defineFont(ctx, 35);
         ctx.fillText(`Transferência: R$${transferencia}`, 75, 1028);
         //Vencimento
-        defineFont(ctx, 35);
         ctx.fillText(`Vencimento: ${vencimento}`, 150, 1100);
         //Contato
-        defineFont(ctx, 35);
         ctx.fillText(`Contato: ${contato}`, 150, 1150);
     }
 
@@ -128,6 +136,7 @@ const ImageEditor = () => {
             entradaValue, 
             numeroDeParcelasValue, 
             valorParcelasValue,
+            valorParcelaFlexValue,
 
             parcelaFlex,
 
@@ -246,6 +255,15 @@ const ImageEditor = () => {
                             value={parcelaFlex} 
                             setValue={setParcelaFlex}
                         >Parcela Flex?</InputCheck>
+
+                        {parcelaFlex &&
+                            <Input 
+                                classLabel="w-full" 
+                                value={valorParcelaFlexValue} 
+                                setValue={setValorParcelaFlexValue} 
+                                placeholder="875,05"
+                            >Valor Flex</Input>
+                        }
 
                         <Input 
                             value={valorPagoValue} 

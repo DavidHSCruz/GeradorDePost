@@ -5,7 +5,7 @@ export const InputCheck = ({ children, value, setValue }) => {
             <input
                 type="checkbox"
                 onChange={() =>
-                    value ? setValue(false) : setValue(true)
+                    setValue(!value)
                 }
         />
         </label>
