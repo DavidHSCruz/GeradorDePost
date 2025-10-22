@@ -18,7 +18,7 @@ const Test = () => {
         { name: 'Transferência', placeholder: 'Ex: 500,75' },
         { name: 'Valor pago', placeholder: 'Ex: 1.569,47' },
         { name: 'Prazo', placeholder: 'Ex: 40' },
-        { name: 'Valor Parcela', placeholder: 'Ex: 917,50' },
+        { name: 'Valor Parcela Integral', placeholder: 'Ex: 917,50' },
         { name: 'Valor Parcela Flex', placeholder: 'Ex: 500,77' },
         { name: 'Seguro', placeholder: 'Ex: 80,50' },
         { name: 'Vencimento', placeholder: 'Ex: 00/00/0000' },
@@ -34,11 +34,24 @@ const Test = () => {
         valorPago: '1569,47',
         prazo: '40',
         valorParcelaInt: '917,50',
-        valorParcelaFlex: '500,77',
-        seguro: '80,50',
+        valorParcelaFlex: '',
+        seguro: '',
         vencimento: '12/11/2025',
         contato: '(41) 99917-6416'
     })
+
+    const [check, setCheck] = useState({
+        seguro: false,
+        valorParcelaFlex: false
+    })
+
+    function checkInput(name) {
+        if (name === 'seguro' || name === 'valorParcelaFlex') {
+            return <input type="checkbox" checked={check[name]} onChange={() => setCheck({ ...check, [name]: !check[name] })} />
+        }
+
+        return null
+    }
 
     async function downloadImage() {
         if (!node.current) return console.log('el não existe')
@@ -59,15 +72,23 @@ const Test = () => {
             <section className=" flex flex-col gap-2">
                 {Object.keys(inf).map((name, i) => {
                     const {name: inputName, placeholder} = inputs[i]
+                    const checkDisabled = name === 'seguro' || name === 'valorParcelaFlex' ? !check[name] : false
 
                     return(
                         <div key={i} className="flex flex-col">
-                            <label className="text-preto text-[12px] opacity-50 ml-2" htmlFor={name}>{inputName}:</label>
+                            <div className="flex gap-2 ml-2">
+
+                                {/* CHECK */}
+                                {checkInput(name)}
+
+                                <label className="text-preto text-[12px] opacity-50" htmlFor={name}>{inputName}:</label>
+                            </div>
                             <input
                                 className=" border-2 rounded-[10px] border-preto text-preto text-opacity-75 border-opacity-10 focus:border-opacity-20 focus:outline-none focus:border-vermelho py-1 px-2"
                                 type="text"
                                 id={name}
                                 value={inf[name]}
+                                disabled={checkDisabled}
                                 placeholder={placeholder}
                                 onChange={(e) => setInf({...inf, [name]: e.target.value})}
                             />
@@ -122,21 +143,25 @@ const Test = () => {
                             </div>
                             {/* VALOR PAGO */}
                             <Informacao className='self-end' titulo='Valor pago' valor={`R$ ${inf.valorPago || '0,00'}`}/>
-                            <div className='flex gap-1 text-[12px] items-end text-preto '>
+                            <div className='flex gap-1 text-[12px] items-end text-preto mt-[-10px] '>
                                 {/* PARCELA FLEX */}
-                                <p className="opacity-50">Parcela flex</p>
+                                <p className="opacity-50">{`Parcela${check.valorParcelaFlex ? ' flex' : ''}`}</p>
                                 <div className="flex text-vermelho gap-[2px]">
                                     <p className="text-[11px] self-end">R$</p>
-                                    <p className="text-[32px] font-bold relative top-2">{inf.valorParcelaFlex.split(',')[0] || '0'}</p>
-                                    <p className="text-[15px] font-black self-start relative top-[14px]">{`,${inf.valorParcelaFlex.split(',')[1] || '00'}`}</p>
+                                    <p className="text-[32px] font-bold relative top-2">{check.valorParcelaFlex ? inf.valorParcelaFlex.split(',')[0] || '0' : inf.valorParcelaInt.split(',')[0] || '0'}</p>
+                                    <p className="text-[15px] font-black self-start relative top-[15px]">{`,${check.valorParcelaFlex ? inf.valorParcelaFlex.split(',')[1] || '00' : inf.valorParcelaInt.split(',')[1] || '00'}`}</p>
                                 </div>
                             </div>
                             {/* PARCELA INTEGRAL */}
-                            <Informacao titulo='Parcela integral' valor={`R$ ${inf.valorParcelaInt || '0,00'}`}/>
+                            {check.valorParcelaFlex &&
+                                <Informacao titulo='Parcela integral' valor={`R$ ${inf.valorParcelaInt || '0,00'}`}/>
+                            }
                             {/* SEGURO */}
-                            <Informacao className='text-[8px]' titulo='+ Seguro de vida pf' valor={`R$ ${inf.seguro || '0,00'}`}/>
+                            {check.seguro &&
+                                <Informacao className='text-[8px]' titulo='+ Seguro de vida pf' valor={`R$ ${inf.seguro || '0,00'}`}/>
+                            }
                             {/* VENCIMENTO */}
-                            <Informacao className='self-end text-[8px]' titulo='Vencimento' valor={inf.vencimento || '00/00/0000'}/>
+                            <Informacao className='self-end text-[8px] mt-1' titulo='Vencimento' valor={inf.vencimento || '00/00/0000'}/>
                             {/* CONTATO */}
                             <Informacao className='absolute bottom-[-16px] text-[8px]' titulo='Contato' valor={inf.contato || '(00) 00000-0000'}/>
                         </div>
@@ -155,7 +180,7 @@ const Test = () => {
                 </div>
             </section>
             <button 
-                className="bg-vermelho text-cinza font-bold py-2 px-4 rounded-[10px] shadow-padrao hover:brightness-110 transition-all mb-5"
+                className="bg-vermelho text-cinza font-bold py-2 px-4 rounded-[10px] hover:brightness-110 transition-all mb-5"
                 onClick={downloadImage}
             >Baixar imagem</button>
         </div>
