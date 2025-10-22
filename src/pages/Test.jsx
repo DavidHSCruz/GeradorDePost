@@ -40,6 +40,8 @@ const Test = () => {
         contato: '(41) 99917-6416'
     })
 
+    const [milhar, setMilhar] = useState('mil')
+
     const [check, setCheck] = useState({
         seguro: false,
         valorParcelaFlex: false
@@ -83,15 +85,28 @@ const Test = () => {
 
                                 <label className="text-preto text-[12px] opacity-50" htmlFor={name}>{inputName}:</label>
                             </div>
-                            <input
-                                className=" border-2 rounded-[10px] border-preto text-preto text-opacity-75 border-opacity-10 focus:border-opacity-20 focus:outline-none focus:border-vermelho py-1 px-2"
-                                type="text"
-                                id={name}
-                                value={inf[name]}
-                                disabled={checkDisabled}
-                                placeholder={placeholder}
-                                onChange={(e) => setInf({...inf, [name]: e.target.value})}
-                            />
+                            <div className="flex border-2 rounded-[10px] border-preto border-opacity-10 focus-within:border-opacity-20 focus-within:border-vermelho py-1 px-2">
+                                <input
+                                    className={`text-preto text-opacity-75 focus:outline-none bg-transparent ${name === 'credito' ? 'w-[30px]' : 'w-full'}`}
+                                    type="text"
+                                    id={name}
+                                    value={inf[name]}
+                                    disabled={checkDisabled}
+                                    placeholder={placeholder}
+                                    onChange={(e) => setInf({...inf, [name]: e.target.value})}
+                                />
+                               {name === 'credito' && 
+                                    <select 
+                                        className="outline-none text-preto text-opacity-75" 
+                                        name="milhar" 
+                                        value={milhar} 
+                                        onChange={(e) => setMilhar(e.target.value)}
+                                    >
+                                        <option value="mil">Mil</option>
+                                        <option value="mi">Mi</option>
+                                    </select>
+                                }
+                            </div>
                         </div>
                     )
                 })}
@@ -172,7 +187,7 @@ const Test = () => {
                             <div className="flex gap-[2px]">
                                 <p className="text-[8px] self-end">R$</p>
                                 <p className="text-[24px] font-bold relative top-[7px]">{inf.credito || '0'}</p>
-                                <p className="text-[10px] font-black self-end relative top-[1px]">MIL</p>
+                                <p className="text-[10px] font-black self-end relative top-[1px]">{milhar === 'mi' ? inf.credito === '1' ? 'MILHÃO' : 'MILHÕES' : milhar.toUpperCase()}</p>
                             </div>
                         </div>
                     </div>
