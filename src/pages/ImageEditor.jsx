@@ -58,6 +58,21 @@ const ImageEditor = () => {
     }
     
     function criaImagemNoTemplate(ctx, imgSelect, x, y) {
+
+        //UTILIZAR html-to-image PARA GERAR IMAGEM A PARTIR DE UMA DIV
+
+        // referenciar node com ref
+        // htmlToImage
+        //     .toPng(node)
+        //     .then((dataUrl) => {
+        //         const img = new Image();
+        //         img.src = dataUrl;
+        //         document.body.appendChild(img);
+        //     })
+        //     .catch((err) => {
+        //         console.error('oops, something went wrong!', err);
+        //     })
+
         if(imgSelect !== '') {
             const img = new Image()
             img.onload = () => {

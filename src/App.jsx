@@ -2,6 +2,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { TemplateProvider } from "./context/templateContext";
 import ImageEditor from "./pages/ImageEditor";
 import Templates from "./pages/Templates";
+import Test from "./pages/Test";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route index element={<Templates />}/>
           <Route path="/edit" element={<ImageEditor />}/>
+          <Route path="/test" element={<Test />}/>
         </Routes>
       </TemplateProvider>
     </BrowserRouter>
