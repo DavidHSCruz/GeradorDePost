@@ -27,7 +27,7 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
         <div className="fixed top-0 left-0 w-full h-full bg-preto bg-opacity-75 flex justify-center items-center z-50">
           <div className="bg-cinza p-5 rounded-lg shadow-padrao max-h-[80vh]">
             <div className="flex justify-between bg-cinza pb-4">
-              <h2 className="text-preto font-bold py-2">Menu de Imagens</h2>
+              <h2 className="text-preto font-bold py-2">Imagens</h2>
               <button 
                   className="bg-preto bg-opacity-75 text-cinza font-bold py-2 px-4 rounded-[10px] hover:brightness-110 transition-all"
                   onClick={() => setOpened(!opened)}
@@ -39,7 +39,7 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
                 return (
                   <div key={i} className="mb-5">
                     <h3 className="text-preto mb-2 capitalize">{tipo}</h3>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 
                       {list.map((item, i) => (
                           <button 
@@ -68,7 +68,7 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
               })}
               <div className="mb-5">
                   <h3 className="text-preto mb-2 capitalize">fundo</h3>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 
                     {filtroFundoList.map((item, i) => (
                         <button 
@@ -97,7 +97,7 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
         </div>
       }
       <button 
-          className="bg-preto bg-opacity-75 text-cinza font-bold py-2 px-4 rounded-[10px] hover:brightness-110 transition-all mb-5 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-preto bg-opacity-75 text-cinza font-bold mt-4 py-2 px-4 rounded-[10px] hover:brightness-110 transition-all mb-5 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => setOpened(!opened)}
           disabled={t === 'selecione'}
       >Selecionar Imagens</button>
