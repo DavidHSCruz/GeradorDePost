@@ -12,7 +12,7 @@ const Templates = () => {
                     if(template === 'TestPost') {
                         return (
                             <div key={i} className="bg-preto px-5 pb-5">
-                                <p className="p-2 text-cinza">TEMPLATE EM TESTE</p>
+                                <p className="p-2 text-cinza">NOVA VERSÃO: TESTE GRATUITO</p>
                                 <CardTemplate
                                     to='/test'
                                     template={`/imagens/templates/${template}.png`}

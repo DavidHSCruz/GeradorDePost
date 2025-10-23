@@ -1,19 +1,22 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as htmlToImage from 'html-to-image'
 import bg from '../assets/imagens/bg.jpg'
 import logo from '../assets/imagens/LOGO.png'
-import rua from '../assets/imagens/rua.jpg'
-import carro from '../assets/imagens/carro.png'
+import casaSVG from '../assets/imagens/casa.png'
 import carroSVG from '../assets/imagens/car.png'
+import motoSVG from '../assets/imagens/moto.png'
+
 import { Informacao } from "../components/Informacao"
+import { ImageMenu } from "../components/ImageMenu"
 
 const Test = () => {
     const node = useRef(null)
 
     const inputs = [
-        { name: 'Tipo', placeholder: 'Ex: Carta Contemplada' },
+        { name: 'Tipo', placeholder: 'Casa' },
+        { name: 'Descrição', placeholder: 'Ex: Carta Contemplada' },
         { name: 'Consórcio', placeholder: 'Ex: Servopa' },
-        { name: 'Crédito', placeholder: 'Ex: 200' },
+        { name: 'Crédito', placeholder: '200' },
         { name: 'Entrada', placeholder: 'Ex: 10.593,55' },
         { name: 'Transferência', placeholder: 'Ex: 500,75' },
         { name: 'Valor pago', placeholder: 'Ex: 1.569,47' },
@@ -26,21 +29,33 @@ const Test = () => {
     ]
 
     const [inf, setInf] = useState({
-        tipo: 'CARTA CONTEMPLADA',
-        consorcio: 'Servopa',
-        credito: '200',
-        entrada: '10.593,55',
-        transferencia: '500,75',
-        valorPago: '1569,47',
-        prazo: '40',
-        valorParcelaInt: '917,50',
+        tipo: 'selecione',
+        descricao: '',
+        consorcio: '',
+        credito: '',
+        entrada: '',
+        transferencia: '',
+        valorPago: '',
+        prazo: '',
+        valorParcelaInt: '',
         valorParcelaFlex: '',
         seguro: '',
-        vencimento: '12/11/2025',
-        contato: '(41) 99917-6416'
+        vencimento: '',
+        contato: ''
     })
-
+    const tipos = {
+        casa: casaSVG,
+        carro: carroSVG,
+        moto: motoSVG
+    }
+    
     const [milhar, setMilhar] = useState('mil')
+    const [selectedIMG, setSelectedIMG] = useState({
+    item: '',
+    fundo: ''
+  })
+
+  useEffect(() => setSelectedIMG({ item: '', fundo: '' }), [inf.tipo, setSelectedIMG])
 
     const [check, setCheck] = useState({
         seguro: false,
@@ -72,9 +87,31 @@ const Test = () => {
     return (
         <div className="flex flex-col items-center gap-5 mt-5">
             <section className=" flex flex-col gap-2">
+                <div className="flex flex-col">
+                    <div className="flex gap-2 ml-2">
+                        <label className="text-preto text-[12px] opacity-50" htmlFor='tipo'>Tipo:</label>
+                    </div>
+                    <div className="flex border-2 rounded-[10px] border-preto border-opacity-10 focus-within:border-opacity-20 focus-within:border-vermelho py-1 px-2">
+                        <select 
+                            className="text-preto text-opacity-75 focus:outline-none bg-transparent w-full capitalize" 
+                            name="tipo"
+                            value={inf.tipo} 
+                            onChange={(e) => setInf({...inf, tipo: e.target.value})}
+                        >
+                            <option value="selecione">Selecione...</option>
+                            {Object.keys(tipos).map((tipo, i) => (
+                                <option 
+                                    key={i}
+                                    value={tipo}
+                                >{tipo}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
                 {Object.keys(inf).map((name, i) => {
                     const {name: inputName, placeholder} = inputs[i]
                     const checkDisabled = name === 'seguro' || name === 'valorParcelaFlex' ? !check[name] : false
+                    if (name === 'tipo') return
 
                     return(
                         <div key={i} className="flex flex-col">
@@ -85,9 +122,9 @@ const Test = () => {
 
                                 <label className="text-preto text-[12px] opacity-50" htmlFor={name}>{inputName}:</label>
                             </div>
-                            <div className="flex border-2 rounded-[10px] border-preto border-opacity-10 focus-within:border-opacity-20 focus-within:border-vermelho py-1 px-2">
+                            <div className={`flex border-2 rounded-[10px] border-preto border-opacity-10 focus-within:border-opacity-20 focus-within:border-vermelho py-1 px-2 ${checkDisabled && 'opacity-25 bg-cinza cursor-not-allowed'}`}>
                                 <input
-                                    className={`text-preto text-opacity-75 focus:outline-none bg-transparent ${name === 'credito' ? 'w-[30px]' : 'w-full'}`}
+                                    className={`text-preto text-opacity-75 focus:outline-none disabled:cursor-not-allowed bg-transparent ${name === 'credito' ? 'w-[30px]' : 'w-full'}`}
                                     type="text"
                                     id={name}
                                     value={inf[name]}
@@ -110,6 +147,8 @@ const Test = () => {
                         </div>
                     )
                 })}
+                <ImageMenu selected={selectedIMG} setSelected={setSelectedIMG} tipo={inf.tipo} />
+
             </section>
             <section ref={node} className=" w-[512px] overflow-hidden font-roboto">
                 <div 
@@ -118,24 +157,31 @@ const Test = () => {
                 >
                     {/* LOGO */}
                     <img src={logo} alt="Logo" className="w-[100px] absolute bottom-0 right-0"/>
-                    {/* RUA */}
+                    {/* FUNDO IMG */}
                     <div 
-                        className="w-[256px] h-[300px] bg-cover bg-center absolute top-[71px] right-0 rounded-l-[25px] shadow-padrao"
-                        style={{ backgroundImage: `url(${rua})` }}
+                        className="w-[256px] h-[300px] bg-cinza bg-cover bg-center absolute top-[71px] right-0 rounded-l-[25px] shadow-padrao"
+                        style={{ backgroundImage: `url(${selectedIMG.fundo})` }}
                     />
-                    {/* CARRO */}
-                    <img src={carro} alt="Logo" className="w-[350px] absolute top-[220px] right-[-60px] z-10"/>
-
+                    {/* ITEM IMG */}
+                    {selectedIMG.item &&
+                        <img src={selectedIMG.item} alt="Logo" className="w-[370px] absolute top-[220px] right-[-60px] z-10"/>
+                    }
                     {/* TITULO */}
                     <div className="absolute top-[21px] left-[37px] flex items-center gap-3">
 
                         <div className="bg-vermelho w-[50px] aspect-square p-[6px] rounded-[5px] shadow-padrao">
-                            <img src={carroSVG} alt="carroSVG" className="w-full relative top-[4px] opacity-50"/>
+                            {Object.entries(tipos).find(key => key[0] === inf.tipo) &&
+                                <img 
+                                    src={Object.entries(tipos).find(key => key[0] === inf.tipo)[1]} 
+                                    alt={Object.entries(tipos).find(key => key[0] === inf.tipo)[1]} 
+                                    className="w-full relative top-[4px] opacity-70"
+                                />
+                            }
                         </div>
 
                         <div className="pt-1">
-                            <h1 className="text-xl leading-5 font-bold text-preto">{inf.tipo.toUpperCase()}</h1>
-                            <h2 className="text-base text-preto">{inf.consorcio.charAt(0).toUpperCase() + inf.consorcio.slice(1)}</h2>
+                            <h1 className="text-xl leading-5 font-bold text-preto">{inf.descricao.toUpperCase() || 'Digite uma descrição'}</h1>
+                            <h2 className="text-base text-preto capitalize">{inf.consorcio || 'Nome do consórcio'}</h2>
                         </div>
 
                     </div>
