@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react"
+import { ImageItem } from "./ImageItem"
 
-export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
+export const ImageMenu = ({ selected, setSelected, tipos, tipo: t }) => {
   const [opened, setOpened] = useState(false)
   const tipo = t + 's'
   const produtosList = {
@@ -9,15 +9,25 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
     carros: ['BYD', 'Corolla', 'Jeep', 'Onix', 'Prisma'],
     motos: ['honda', 'kawasaki']
   }
-  const fundoList = ['', 'carro1', 'carro2', 'carro3', 'carro4', 'moto1', 'moto2', 'moto3', 'casa1', 'casa2', 'casa3', 'casa4']
+  
+  let fundoList = ['_']
+
+  Object.keys(tipos).map(item => {
+    for (let i = 1; i <= 20; i++) {
+      const newItem = `${item}${i}`
+  
+      fundoList.push(newItem)
+    }
+  })
+
+  const filtroFundoList = fundoList.filter(item => item.startsWith(t.replace('ç', 'c')))
   
   const filtroProdutosList = () => {
-    if (t !== 'casa') {
+    if (t !== 'casa' && t !== 'serviço') {
       return { sem: produtosList.sem, [tipo]: produtosList[tipo] || [] }
     }
     return {}
   }
-  const filtroFundoList = fundoList.filter(item => item.startsWith(t))
   
   const [selectItem, setSelectItem] = useState('')
 
@@ -41,7 +51,10 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
                     <h3 className="text-preto mb-2 capitalize">{tipo}</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 
-                      {list.map((item, i) => (
+                      {list.map((item, i) => {
+                        const image = item ? `/imagens/produtos/${tipo}/${item.toLowerCase()}.png` : ''
+
+                        return (
                           <button 
                             key={i} 
                             className={`flex flex-col items-center border-2 rounded-[10px] border-opacity-50 bg-preto bg-opacity-10 hover:border-opacity-20 hover:border-preto transition-all
@@ -51,15 +64,15 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
                               setSelectItem(item)
                               setSelected({
                                 ...selected,
-                                item: item ? `/imagens/produtos/${tipo}/${item.toLowerCase()}.png` : '' 
+                                item: image
                               })
                             }}
                           >
-                            <img src={`/imagens/produtos/${tipo}/${item.toLowerCase()}.png`} alt={item}
+                            <img src={image} alt={item}
                               className="h-16 object-cover mb-2" />
                             <p className="text-preto text-[10px]">{item}</p>
                           </button>
-                        )
+                        )}
                       )}
 
                     </div>
@@ -71,25 +84,20 @@ export const ImageMenu = ({ selected, setSelected, tipo: t }) => {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 
                     {filtroFundoList.map((item, i) => (
-                        <button 
-                          key={i} 
-                          className={`flex flex-col items-center border-2 rounded-[10px] border-opacity-50 bg-preto bg-opacity-10 hover:border-opacity-20 hover:border-preto transition-all
-                            ${selectItem === item && 'border-vermelho bg-vermelho'}`
-                          }
-                          onClick={() => {
+                      <ImageItem 
+                        key={i}
+                        item={item}
+                        imagePath={item ? `/imagens/fundo/${item.toLowerCase()}.png` : ''}
+                        isSelected={selectItem === item}
+                        onSelect={(item, image) => {
                             setSelectItem(item)
                             setSelected({
-                              ...selected,
-                              fundo: item ? `/imagens/fundo/${item.toLowerCase()}.png` : '' 
+                                ...selected,
+                                fundo: image
                             })
-                          }}
-                        >
-                          <img src={`/imagens/fundo/${item.toLowerCase()}.png`} alt={item}
-                            className="h-16 object-cover mb-2" />
-                          <p className="text-preto text-[10px]">{item}</p>
-                        </button>
-                      )
-                    )}
+                        }}
+                      />
+                    ))}
                   </div>
               </div>
             </section>
