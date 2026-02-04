@@ -33,7 +33,7 @@ export const CardPreview = ({
           />
           {/* FUNDO IMG */}
           <div
-            className="w-[215px] h-[300px] bg-cinza bg-cover bg-center absolute top-[71px] right-0 rounded-l-[25px] shadow-padrao"
+            className="w-[215px] h-[300px] bg-cinza bg-cover bg-center absolute top-[71px] right-[-10px] rounded-l-[25px] shadow-padrao"
             style={{ 
               backgroundImage: `url(${selectedIMG.fundo})`,
               filter: `hue-rotate(${-hueBg}deg)`
@@ -139,8 +139,8 @@ export const CardPreview = ({
                 {check.maisParcelasDe && (
                   <Informacao
                     className="text-[8px]"
-                    titulo="+ Parcelas de"
-                    valor={`R$ ${inf.maisParcelasDe || "0,00"}`}
+                    titulo={`+ ${inf.maisParcelasNum || "0"} parcelas de`}
+                    valor={`R$ ${inf.maisParcelasValor || "0,00"}`}
                   />
                 )}
 

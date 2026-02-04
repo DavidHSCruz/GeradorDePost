@@ -78,10 +78,59 @@ export const CardForm = ({
                 </div>
                 {/* Inputs Dinâmicos */}
                 {Object.keys(inf).map((name, i) => {
-                    // eslint-disable-next-line no-unused-vars
-                    const inputConfig = inputs.find(input => input.name.toLowerCase().replace(/\s/g, '') === name.toLowerCase())
-                    
                     if (name === 'tipo' || name === 'color') return null
+
+                    if (name === 'maisParcelasValor') return null
+
+                    if (name === 'maisParcelasNum') {
+                        const checkName = 'maisParcelasDe'
+                        const isChecked = check[checkName]
+                        const checkDisabled = !isChecked
+                        
+                        return (
+                            <div key={i} className={`flex flex-col group ${checkDisabled ? 'opacity-50' : ''}`}>
+                                <div className="flex items-center mb-1 ml-1">
+                                    {checkInput(checkName)}
+                                    <label className={`text-sm font-medium ${checkDisabled ? 'text-gray-400' : 'text-gray-600'}`} htmlFor={name}>
+                                        Mais Parcelas
+                                    </label>
+                                </div>
+                                
+                                <div className={`flex gap-2 relative transition-all duration-200 ${checkDisabled ? 'grayscale' : ''}`}>
+                                    <div className="w-1/3">
+                                        <input
+                                            className={`
+                                                w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                                focus:ring-vermelho focus:border-vermelho block p-2.5 outline-none
+                                                disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors
+                                                placeholder-gray-400
+                                            `}
+                                            type="text"
+                                            value={inf.maisParcelasNum}
+                                            disabled={checkDisabled}
+                                            placeholder="Nº"
+                                            onChange={(e) => setInf({...inf, maisParcelasNum: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <input
+                                            className={`
+                                                w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                                focus:ring-vermelho focus:border-vermelho block p-2.5 outline-none
+                                                disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors
+                                                placeholder-gray-400
+                                            `}
+                                            type="text"
+                                            value={inf.maisParcelasValor}
+                                            disabled={checkDisabled}
+                                            placeholder="Valor (R$)"
+                                            onChange={(e) => setInf({...inf, maisParcelasValor: e.target.value})}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
 
                     if (!inputs[i]) return null 
                     const { name: inputName, placeholder } = inputs[i]
