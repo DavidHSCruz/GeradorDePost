@@ -1,6 +1,6 @@
-import bg from '../../assets/imagens/bg.jpg'
-import logo from '../../assets/imagens/LOGO.png'
-import { Informacao } from "../Informacao"
+import bg from "../../assets/imagens/bg.jpg";
+import logo from "../../assets/imagens/LOGO.png";
+import { Informacao } from "../Informacao";
 
 export const CardPreview = ({
   nodeRef,
@@ -11,17 +11,16 @@ export const CardPreview = ({
   check,
   milhar = "mil", // Default value as logic to change it was missing in original
 }) => {
-
-  const hueBg = color !== 'selecione' && color[inf.color] || 0
+  const hueBg = (color !== "selecione" && color[inf.color]) || 0;
 
   return (
     <section className="scale-50 md:scale-75 lg:scale-100 mt-[-120px] md:mt-[-50px] lg:mt-0">
       <div ref={nodeRef} className="w-[512px] overflow-hidden font-roboto">
         <div
           className="aspect-square bg-cover bg-center relative"
-          style={{ 
+          style={{
             backgroundImage: `url(${bg})`,
-            filter: `hue-rotate(${hueBg}deg)`
+            filter: `hue-rotate(${hueBg}deg)`,
           }}
         >
           {/* LOGO */}
@@ -34,9 +33,9 @@ export const CardPreview = ({
           {/* FUNDO IMG */}
           <div
             className="w-[215px] h-[300px] bg-cinza bg-cover bg-center absolute top-[71px] right-[-10px] rounded-l-[25px] shadow-padrao"
-            style={{ 
+            style={{
               backgroundImage: `url(${selectedIMG.fundo})`,
-              filter: `hue-rotate(${-hueBg}deg)`
+              filter: `hue-rotate(${-hueBg}deg)`,
             }}
           />
 
@@ -46,20 +45,26 @@ export const CardPreview = ({
               src={selectedIMG.item}
               alt="Logo"
               className="w-[370px] absolute top-[240px] right-[-60px] z-10"
-              style={{ filter: `hue-rotate(${-hueBg}deg)`}}
+              style={{ filter: `hue-rotate(${-hueBg}deg)` }}
             />
           )}
 
           {/* TITULO */}
           <div className="absolute top-[21px] left-[37px] flex items-center gap-3">
             <div className="bg-vermelho w-[50px] aspect-square p-[6px] rounded-[5px] shadow-padrao">
-              {Object.entries(tipos).find((key) => key[0] === inf.tipo.replace('ç', 'c')) && (
+              {Object.entries(tipos).find(
+                (key) => key[0] === inf.tipo.replace("ç", "c"),
+              ) && (
                 <img
                   src={
-                    Object.entries(tipos).find((key) => key[0] === inf.tipo.replace('ç', 'c'))[1]
+                    Object.entries(tipos).find(
+                      (key) => key[0] === inf.tipo.replace("ç", "c"),
+                    )[1]
                   }
                   alt={
-                    Object.entries(tipos).find((key) => key[0] === inf.tipo.replace('ç', 'c'))[1]
+                    Object.entries(tipos).find(
+                      (key) => key[0] === inf.tipo.replace("ç", "c"),
+                    )[1]
                   }
                   className="w-full relative top-[4px] opacity-70"
                 />
@@ -76,7 +81,6 @@ export const CardPreview = ({
             </div>
           </div>
           <div className="w-1/2 absolute top-[126px] left-[15px] flex gap-5">
-
             {/* PRAZO */}
             <div className="absolute left-[36px] text-preto flex items-end gap-1">
               <div className="flex flex-col items-end">
@@ -88,12 +92,12 @@ export const CardPreview = ({
               <p className="relative top-2">meses</p>
             </div>
 
-            <div className='flex flex-row-reverse h-max items-start justify-end gap-2 absolute top-[95px] bg-cinza shadow-padrao rounded-[10px] py-2 pr-5'>
+            <div className="flex flex-row-reverse h-max items-start justify-end gap-2 absolute top-[95px] bg-cinza shadow-padrao rounded-[10px] py-2 pr-5">
               <div className="flex-col">
-                <div className="self-end w-max absolute top-[-32px]">
-
+                <div className="self-end w-max absolute top-[-55px]">
                   {/* ENTRADA */}
                   <Informacao
+                    className="flex-col items-start !text-xs !gap-0 mb-1"
                     titulo="Entrada de"
                     valor={`R$ ${inf.entrada || "0,00"}`}
                   />
@@ -108,12 +112,11 @@ export const CardPreview = ({
 
                 {/* VALOR PAGO */}
                 <Informacao
-                  className="self-end"
+                  className="self-end !text-xs"
                   titulo="Valor pago"
                   valor={`R$ ${inf.valorPago || "0,00"}`}
                 />
                 <div className="flex gap-1 text-[12px] items-end text-preto mt-[-10px] ">
-
                   {/* PARCELA FLEX */}
                   <p className="opacity-50">{`Parcela${check.valorParcelaFlex ? " flex" : ""}`}</p>
                   <div className="flex text-vermelho gap-[2px]">
@@ -152,7 +155,6 @@ export const CardPreview = ({
                     valor={`R$ ${inf.seguro || "0,00"}`}
                   />
                 )}
-
               </div>
 
               {/* CRÉDITO */}
@@ -174,15 +176,18 @@ export const CardPreview = ({
                   </div>
                 </div>
                 <div className="flex flex-col w-full h-full">
-
                   {/* UPGRADE */}
-                  <div className={`self-end flex flex-col items-end w-max px-2 py-1 ${!check.upgrade && 'hidden'}`}>
-                      <p className="text-[10px] opacity-50">Upgrade para</p>
-                      <div className="flex items-end gap-[2px] relative top-[-6px] opacity-75">
-                        <p className="text-[8px]">R$</p>
-                        <p className="text-[20px] relative top-[5px] font-bold">{inf.upgrade || "00,00"}</p>
-                        <p className="text-[10px] font-black">MIL</p>
-                      </div>
+                  <div
+                    className={`self-end flex flex-col items-end w-max px-2 py-1 ${!check.upgrade && "hidden"}`}
+                  >
+                    <p className="text-[10px] opacity-50">Upgrade para</p>
+                    <div className="flex items-end gap-[2px] relative top-[-6px] opacity-75">
+                      <p className="text-[8px]">R$</p>
+                      <p className="text-[20px] relative top-[5px] font-bold">
+                        {inf.upgrade || "00,00"}
+                      </p>
+                      <p className="text-[10px] font-black">MIL</p>
+                    </div>
                   </div>
 
                   {/* VENCIMENTO */}
@@ -193,15 +198,13 @@ export const CardPreview = ({
                   />
                 </div>
               </div>
-                {/* CONTATO */}
-                <Informacao
-                  className="absolute bottom-[-25px] text-[12px]"
-                  titulo="Contato"
-                  valor={inf.contato || "(00) 00000-0000"}
-                />
+              {/* CONTATO */}
+              <Informacao
+                className="absolute bottom-[-25px] text-[12px]"
+                titulo="Contato"
+                valor={inf.contato || "(00) 00000-0000"}
+              />
             </div>
-
-
           </div>
         </div>
       </div>
