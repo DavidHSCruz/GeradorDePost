@@ -7,10 +7,16 @@ import motoSVG from '../../assets/imagens/moto.png'
 import servicosSVG from '../../assets/imagens/hammer.png'
 
 import { CardForm } from "./CardForm"
-import { CardPreview } from "./CardPreview"
+import { CardPreview as CardPreview0 } from "./CardPreview"
+import { CardPreview as CardPreview1 } from "./CardPreview1"
+import { CardPreview as CardPreview2 } from "./CardPreview2"
+import { CardPreview as CardPreview3 } from "./CardPreview3"
+import { useTemplateData } from "../../context/templateContext"
 
 const CardGenerator = () => {
     const node = useRef(null)
+    const { template } = useTemplateData()
+
 
     const inputs = [
         { name: 'Tipo', placeholder: 'Casa' },
@@ -64,10 +70,10 @@ const CardGenerator = () => {
         verde: 120,
         azul: 240,
     }
-    
+
     // eslint-disable-next-line no-unused-vars
     const [milhar, setMilhar] = useState('mil')
-    
+
     const [selectedIMG, setSelectedIMG] = useState({
         item: '',
         fundo: ''
@@ -93,14 +99,23 @@ const CardGenerator = () => {
             link.download = `card-${inf.consorcio || 'consorcio'}.png`
             link.href = dataURL
             link.click()
-        }catch (error) {
+        } catch (error) {
             console.error('Oops, algo deu errado!', error)
         }
     }
 
+    const getPreviewComponent = () => {
+        if (template?.includes('templateCard1')) return CardPreview1;
+        if (template?.includes('templateCard2')) return CardPreview2;
+        if (template?.includes('templateCard3')) return CardPreview3;
+        return CardPreview0;
+    };
+
+    const SelectedPreview = getPreviewComponent();
+
     return (
         <div className="flex flex-col items-center gap-5 mt-5">
-            <CardForm 
+            <CardForm
                 inf={inf}
                 setInf={setInf}
                 check={check}
@@ -112,7 +127,7 @@ const CardGenerator = () => {
                 setSelectedIMG={setSelectedIMG}
             />
 
-            <CardPreview 
+            <SelectedPreview
                 nodeRef={node}
                 inf={inf}
                 selectedIMG={selectedIMG}
@@ -122,7 +137,7 @@ const CardGenerator = () => {
                 milhar={milhar}
             />
 
-            <button 
+            <button
                 className="bg-vermelho text-cinza font-bold py-2 px-4 rounded-[10px] hover:brightness-110 transition-all mb-10 mt-[-120px] md:mt-[-60px] lg:mt-0"
                 onClick={downloadImage}
             >
