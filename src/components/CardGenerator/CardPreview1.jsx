@@ -26,7 +26,7 @@ export const CardPreview = ({
         <div className="absolute top-[-50px] left-[-50px] w-[612px] h-[612px]">
           <div
             className={`w-full h-full bg-cover bg-center ${selectedIMG.item && "mix-blend-overlay"}`}
-            style={{ backgroundImage: `url(${selectedIMG.fundo})`, filter: `hue-rotate(${-hueBg}deg)` }}
+            style={{ backgroundImage: `url(${selectedIMG.fundo})` }}
           />
           {/* Gradiente para mesclar a imagem com o fundo suavemente */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent"></div>
@@ -38,14 +38,15 @@ export const CardPreview = ({
             src={selectedIMG.item}
             alt="Item"
             className="absolute top-[75px] left-[50%] -translate-x-1/2 w-[340px] drop-shadow-2xl z-10 object-contain"
-            style={{ filter: `hue-rotate(${-hueBg}deg)` }}
           />
         )}
 
         {/* Header - Logo e Título */}
         <div className="absolute top-[20px] left-[20px] right-[20px] z-20 flex justify-between items-start">
           <div className="flex gap-3">
-            <div className="bg-vermelho w-[45px] h-[45px] rounded-xl flex items-center justify-center shadow-lg border border-white/20">
+            <div className="bg-vermelho w-[45px] h-[45px] rounded-xl flex items-center justify-center shadow-lg border border-white/20"
+              style={{ filter: `hue-rotate(${hueBg}deg)` }}
+            >
               {tipoIcon && <img src={tipoIcon} className="w-[60%]" alt="icon" />}
             </div>
             <div className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
@@ -53,7 +54,12 @@ export const CardPreview = ({
               <h2 className="text-[10px] font-medium text-gray-300 mt-1 uppercase tracking-widest opacity-80">{inf.consorcio || 'Consórcio'}</h2>
             </div>
           </div>
-          <img src={logo} alt="Logo" className="w-[120px] drop-shadow-xl bg-white p-2 rounded-xl border border-white/20" style={{ filter: `hue-rotate(${-hueBg}deg)` }} />
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-[120px] drop-shadow-xl bg-white p-2 rounded-xl border border-white/20"
+
+          />
         </div>
 
         {/* Painel Inferior - Valores */}
@@ -64,7 +70,9 @@ export const CardPreview = ({
             {/* Parcela */}
             <div className="flex-1 bg-white/95 backdrop-blur-md rounded-2xl px-4 py-2 shadow-xl border border-white/60 flex flex-col justify-center min-w-0">
               <p className="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Parcela {check.valorParcelaFlex ? 'Flex' : 'Integral'}</p>
-              <div className="flex items-start text-vermelho">
+              <div className="flex items-start text-vermelho"
+                style={{ filter: `hue-rotate(${hueBg}deg)` }}
+              >
                 <span className="text-sm font-bold mt-1 mr-1">R$</span>
                 <span className="text-[2.4rem] font-black leading-[0.9] tracking-tighter">{parcInteira}</span>
                 <span className="text-lg font-bold shrink-0">,{parcCentavos || '00'}</span>
@@ -74,7 +82,9 @@ export const CardPreview = ({
               )}
             </div>
             {/* Crédito */}
-            <div className="flex-shrink-0 min-w-[140px] max-w-[280px] px-4 py-2 bg-vermelho text-white rounded-2xl shadow-xl flex flex-col justify-center items-center text-center relative overflow-hidden border border-red-400">
+            <div className="flex-shrink-0 min-w-[140px] max-w-[280px] px-4 py-2 bg-vermelho text-white rounded-2xl shadow-xl flex flex-col justify-center items-center text-center relative overflow-hidden border border-red-400"
+              style={{ filter: `hue-rotate(${hueBg}deg)` }}
+            >
               <p className="text-[10px] font-bold uppercase opacity-90 tracking-wider w-full">Crédito</p>
               <div className="flex items-end justify-center mt-1 w-full flex-wrap leading-none gap-x-1">
                 <span className="text-sm font-bold mb-[2px]">R$</span>
@@ -94,7 +104,9 @@ export const CardPreview = ({
             <div className="bg-gray-900/90 backdrop-blur-md text-white rounded-2xl px-4 py-2 shadow-xl flex-1 flex flex-col justify-center gap-[3px] text-[10px] border border-white/10">
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
                 <span className="opacity-70 font-medium uppercase text-[9px]">Prazo</span>
-                <span className="font-bold text-vermelho text-right">{inf.prazo} meses</span>
+                <span className="font-bold text-vermelho text-right"
+                  style={{ filter: `hue-rotate(${hueBg}deg)` }}
+                >{inf.prazo} meses</span>
               </div>
               {check.maisParcelasDe && (
                 <div className="flex justify-between border-b border-white/10 pb-[2px]">

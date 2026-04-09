@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 export const CardTemplate = ({ template, name, setTemplate, to, className }) => {
     return (
         <li className={className} onClick={() => setTemplate(template)}>
-            <Link to={to} className="block w-full h-full flex flex-col">
+            <Link to={to} className="w-full h-full flex flex-col">
                 <div className="relative overflow-hidden flex-1 bg-slate-100/50">
-                    <img 
-                        src={template} 
-                        alt={name || "Template"} 
+                    <img
+                        src={template}
+                        alt={name || "Template"}
                         className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors duration-300" />
