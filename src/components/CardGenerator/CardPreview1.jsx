@@ -17,7 +17,7 @@ export const CardPreview = ({
 
   return (
     <section className="scale-50 md:scale-75 lg:scale-100 mt-[-120px] md:mt-[-50px] lg:mt-0">
-      <div ref={nodeRef} className="w-[512px] h-[512px] relative overflow-hidden font-roboto shadow-2xl rounded-[30px] bg-white">
+      <div ref={nodeRef} className="w-[512px] h-[512px] relative overflow-hidden font-roboto shadow-2xl bg-white">
 
         {/* Fundo Principal - BG Original do Cliente */}
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${bg})`, filter: `hue-rotate(${hueBg}deg)` }} />
@@ -37,7 +37,7 @@ export const CardPreview = ({
           <img
             src={selectedIMG.item}
             alt="Item"
-            className="absolute top-[75px] left-[50%] -translate-x-1/2 w-[340px] drop-shadow-2xl z-10 object-contain"
+            className="absolute top-[60px] left-[50%] -translate-x-1/2 w-[340px] drop-shadow-2xl z-10 object-contain"
           />
         )}
 
@@ -63,13 +63,13 @@ export const CardPreview = ({
         </div>
 
         {/* Painel Inferior - Valores */}
-        <div className="absolute top-[260px] left-[20px] w-[472px] h-[235px] z-20 flex flex-col gap-2">
+        <div className="absolute top-[240px] left-[20px] w-[472px] h-[235px] z-20 flex flex-col gap-2">
 
           {/* Destaque: Parcela e Crédito */}
           <div className="flex gap-2 min-h-[90px]">
             {/* Parcela */}
             <div className="flex-1 bg-white/95 backdrop-blur-md rounded-2xl px-4 py-2 shadow-xl border border-white/60 flex flex-col justify-center min-w-0">
-              <p className="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Parcela {check.valorParcelaFlex ? 'Flex' : 'Integral'}</p>
+              <p className="text-[12px] font-bold uppercase text-gray-500 tracking-wider">Parcela {check.valorParcelaFlex ? 'Flex' : 'Integral'}</p>
               <div className="flex items-start text-vermelho"
                 style={{ filter: `hue-rotate(${hueBg}deg)` }}
               >
@@ -78,14 +78,14 @@ export const CardPreview = ({
                 <span className="text-lg font-bold shrink-0">,{parcCentavos || '00'}</span>
               </div>
               {check.valorParcelaFlex && (
-                <p className="text-[9px] text-gray-500 font-medium mt-1">Integral: R$ {inf.valorParcelaInt}</p>
+                <p className="text-[12px] text-gray-500 font-medium mt-1">Integral: R$ {inf.valorParcelaInt}</p>
               )}
             </div>
             {/* Crédito */}
             <div className="flex-shrink-0 min-w-[140px] max-w-[280px] px-4 py-2 bg-vermelho text-white rounded-2xl shadow-xl flex flex-col justify-center items-center text-center relative overflow-hidden border border-red-400"
               style={{ filter: `hue-rotate(${hueBg}deg)` }}
             >
-              <p className="text-[10px] font-bold uppercase opacity-90 tracking-wider w-full">Crédito</p>
+              <p className="text-[18px] font-bold uppercase opacity-90 tracking-wider w-full">Crédito</p>
               <div className="flex items-end justify-center mt-1 w-full flex-wrap leading-none gap-x-1">
                 <span className="text-sm font-bold mb-[2px]">R$</span>
                 <span className="text-[2rem] font-black leading-none shrink-0 break-all" style={{ fontSize: inf.credito && inf.credito.length > 7 ? '1.5rem' : '2rem' }}>{inf.credito || '00'}</span>
@@ -103,33 +103,31 @@ export const CardPreview = ({
           <div className="flex gap-2 flex-1 mb-2">
             <div className="bg-gray-900/90 backdrop-blur-md text-white rounded-2xl px-4 py-2 shadow-xl flex-1 flex flex-col justify-center gap-[3px] text-[10px] border border-white/10">
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
-                <span className="opacity-70 font-medium uppercase text-[9px]">Prazo</span>
-                <span className="font-bold text-vermelho text-right"
-                  style={{ filter: `hue-rotate(${hueBg}deg)` }}
-                >{inf.prazo} meses</span>
+                <span className="opacity-70 font-medium uppercase text-[12px]">Prazo</span>
+                <span className="font-bold text-gray-300 text-[12px] text-right">{inf.prazo} meses</span>
               </div>
               {check.maisParcelasDe && (
                 <div className="flex justify-between border-b border-white/10 pb-[2px]">
-                  <span className="opacity-70 font-medium uppercase text-[9px]">+{inf.maisParcelasNum} parcelas de</span>
-                  <span className="font-bold text-gray-300 text-right">R$ {inf.maisParcelasValor}</span>
+                  <span className="opacity-70 font-medium uppercase text-[12px]">+{inf.maisParcelasNum} parcelas de</span>
+                  <span className="font-bold text-gray-300 text-[12px] text-right">R$ {inf.maisParcelasValor}</span>
                 </div>
               )}
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
-                <span className="opacity-70 font-medium uppercase text-[9px]">Entrada</span>
-                <span className="font-bold text-right">R$ {inf.entrada}</span>
+                <span className="opacity-70 font-medium uppercase text-[12px]">Entrada</span>
+                <span className="font-bold text-[12px] text-right">R$ {inf.entrada}</span>
               </div>
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
-                <span className="opacity-70 font-medium uppercase text-[9px]">Lance/Pago</span>
-                <span className="font-bold text-right">R$ {inf.valorPago}</span>
+                <span className="opacity-70 font-medium uppercase text-[12px]">Lance/Pago</span>
+                <span className="font-bold text-[12px] text-right">R$ {inf.valorPago}</span>
               </div>
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
-                <span className="opacity-70 font-medium uppercase text-[9px]">Transferência</span>
-                <span className="font-bold text-right">R$ {inf.transferencia || '0,00'}</span>
+                <span className="opacity-70 font-medium uppercase text-[12px]">Transferência</span>
+                <span className="font-bold text-[12px] text-right">R$ {inf.transferencia || '0,00'}</span>
               </div>
               {check.seguro && (
                 <div className="flex justify-between pt-[2px]">
-                  <span className="opacity-70 font-medium uppercase text-[9px]">Seguro PF</span>
-                  <span className="font-bold text-right text-gray-300">R$ {inf.seguro}</span>
+                  <span className="opacity-70 font-medium uppercase text-[12px]">Seguro PF</span>
+                  <span className="font-bold text-[12px] text-right text-gray-300">R$ {inf.seguro}</span>
                 </div>
               )}
             </div>
