@@ -90,11 +90,45 @@ const CardGenerator = () => {
         upgrade: false
     })
 
+    async function waitForPreviewAssets(element) {
+        if (document.fonts?.ready) {
+            await document.fonts.ready
+        }
+
+        const images = Array.from(element.querySelectorAll('img'))
+
+        await Promise.all(
+            images.map((image) => {
+                if (image.complete && image.naturalWidth > 0) return Promise.resolve()
+                if (image.decode) return image.decode().catch(() => undefined)
+
+                return new Promise((resolve) => {
+                    image.onload = resolve
+                    image.onerror = resolve
+                })
+            })
+        )
+
+        await new Promise((resolve) => requestAnimationFrame(resolve))
+    }
+
     async function downloadImage() {
         if (!node.current) return console.log('Elemento não existe')
 
         try {
-            const dataURL = await htmlToImage.toPng(node.current)
+            const previewNode = node.current
+
+            await waitForPreviewAssets(previewNode)
+
+            const dataURL = await htmlToImage.toPng(previewNode, {
+                cacheBust: true,
+                backgroundColor: '#ffffff',
+                width: previewNode.offsetWidth,
+                height: previewNode.offsetHeight,
+                canvasWidth: previewNode.offsetWidth,
+                canvasHeight: previewNode.offsetHeight,
+                pixelRatio: 1,
+            })
             const link = document.createElement('a')
             link.download = `card-${inf.consorcio || 'consorcio'}.png`
             link.href = dataURL

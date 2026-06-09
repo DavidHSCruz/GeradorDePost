@@ -68,7 +68,7 @@ export const CardPreview = ({
           {/* Destaque: Parcela e Crédito */}
           <div className="flex gap-2 min-h-[90px]">
             {/* Parcela */}
-            <div className="flex-1 bg-white/95 backdrop-blur-md rounded-2xl px-4 py-2 shadow-xl border border-white/60 flex flex-col justify-center min-w-0">
+            <div className="flex-1 bg-white rounded-2xl px-4 py-2 shadow-xl border border-white/60 flex flex-col justify-center min-w-0">
               <p className="text-[12px] font-bold uppercase text-gray-500 tracking-wider">Parcela {check.valorParcelaFlex ? 'Flex' : 'Integral'}</p>
               <div className="flex items-start text-vermelho"
                 style={{ filter: `hue-rotate(${hueBg}deg)` }}
@@ -101,7 +101,7 @@ export const CardPreview = ({
 
           {/* Grid de Detalhes Adicionais */}
           <div className="flex gap-2 flex-1 mb-2">
-            <div className="bg-gray-900/90 backdrop-blur-md text-white rounded-2xl px-4 py-2 shadow-xl flex-1 flex flex-col justify-center gap-[3px] text-[10px] border border-white/10">
+            <div className="bg-gray-900/90 text-white rounded-2xl px-4 py-2 shadow-xl flex-1 flex flex-col justify-center gap-[3px] text-[10px] border border-white/10">
               <div className="flex justify-between border-b border-white/10 pb-[2px]">
                 <span className="opacity-70 font-medium uppercase text-[12px]">Prazo</span>
                 <span className="font-bold text-gray-300 text-[12px] text-right">{inf.prazo} meses</span>
@@ -134,11 +134,11 @@ export const CardPreview = ({
 
             {/* Rodapé Interno com Contato */}
             <div className="w-[140px] flex flex-col gap-2">
-              <div className="flex-1 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-white/60 flex flex-col justify-center items-center text-center">
+              <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-white/60 flex flex-col justify-center items-center text-center">
                 <span className="text-[9px] font-bold uppercase text-gray-500 mb-1">Vencimento</span>
                 <span className="text-sm font-black text-gray-800">{inf.vencimento}</span>
               </div>
-              <div className="flex-1 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-white/60 flex flex-col justify-center items-center text-center">
+              <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-white/60 flex flex-col justify-center items-center text-center">
                 <span className="text-[9px] font-bold uppercase text-gray-500 mb-1">Contato</span>
                 <span className="text-xs font-black text-gray-800">{inf.contato}</span>
               </div>
