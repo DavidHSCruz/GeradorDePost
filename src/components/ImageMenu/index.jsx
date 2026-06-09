@@ -6,7 +6,7 @@ export const ImageMenu = ({ selected, setSelected, tipos, tipo: t }) => {
   const tipo = t + 's'
   const produtosList = {
     sem: [''],
-    carros: ['BYD', 'Corolla', 'Jeep', 'Onix', 'Prisma'],
+    carros: ['BYD', 'BYD_MiniWhite', 'BYD_MiniBlack', 'BYD_SongPro', 'Corolla', 'Onix', 'Prisma'],
     motos: ['honda', 'kawasaki']
   }
   
